@@ -8,7 +8,6 @@ package models;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,14 +16,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
 /**
  *
- * @author awarsyle
+ * @author Craig
  */
 @Entity
 @Table(name = "user")
@@ -35,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")
     , @NamedQuery(name = "User.findByFirstName", query = "SELECT u FROM User u WHERE u.firstName = :firstName")
     , @NamedQuery(name = "User.findByLastName", query = "SELECT u FROM User u WHERE u.lastName = :lastName")
-    , @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")})
+    , @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password")
+    , @NamedQuery(name = "User.findByResetPasswordUuid", query = "SELECT u FROM User u WHERE u.resetPasswordUuid = :resetPasswordUuid")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,11 +54,15 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
+    @Basic(optional = false)
+    @Column(name = "reset_password_uuid")
+    private String resetPasswordUuid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private List<Note> noteList;
     @JoinColumn(name = "role", referencedColumnName = "role_id")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Role role;
+        
 
     public User() {
     }
@@ -116,13 +119,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @XmlTransient
-    public List<Note> getNoteList() {
-        return noteList;
+    public String getResetPasswordUuid() {
+        return resetPasswordUuid;
     }
 
-    public void setNoteList(List<Note> noteList) {
-        this.noteList = noteList;
+    public void setResetPasswordUuid(String resetPasswordUuid) {
+        this.resetPasswordUuid = resetPasswordUuid;
     }
 
     public Role getRole() {
@@ -133,6 +135,14 @@ public class User implements Serializable {
         this.role = role;
     }
 
+    public List<Note> getNoteList() {
+        return noteList;
+    }
+    
+    public void setNoteList(List<Note> noteList) {
+        this.noteList = noteList;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

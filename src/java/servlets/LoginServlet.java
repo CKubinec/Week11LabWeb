@@ -15,8 +15,8 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        session.invalidate(); // just by going to the login page the user is logged out :-) 
-        
+        session.invalidate();
+
         getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
     }
 
@@ -25,18 +25,18 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        
+
         AccountService as = new AccountService();
         User user = as.login(email, password);
-        
+
         if (user == null) {
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
             return;
         }
-        
+
         HttpSession session = request.getSession();
         session.setAttribute("email", email);
-        
+
         if (user.getRole().getRoleId() == 1) {
             response.sendRedirect("admin");
         } else {

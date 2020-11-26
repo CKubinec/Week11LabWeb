@@ -24,7 +24,7 @@ import models.User;
  * @author Craig
  */
 public class AdminFilter implements Filter {
-   
+
     /**
      *
      * @param request The servlet request we are processing
@@ -37,34 +37,33 @@ public class AdminFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain)
             throws IOException, ServletException {
-        
-      // code that is executed before the servlet
-            HttpServletRequest httpRequest = (HttpServletRequest)request;
-            HttpSession session = httpRequest.getSession();
-            String email = (String)session.getAttribute("email");
-            UserDB userDB = new UserDB();
-            User user = userDB.get(email);
-            Role role = user.getRole();
-            
-            if (role.getRoleId() != 1) {
-                HttpServletResponse httpResponse = (HttpServletResponse) response;
-                httpResponse.sendRedirect("notes");
-                return;
-            }
-            
-            chain.doFilter(request, response); // execute the servlet
-            
-            // code that is executed after the servlet
-     
-            
+
+        // code that is executed before the servlet
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpSession session = httpRequest.getSession();
+        String email = (String) session.getAttribute("email");
+        UserDB userDB = new UserDB();
+        User user = userDB.get(email);
+        Role role = user.getRole();
+
+        if (role.getRoleId() != 1) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            httpResponse.sendRedirect("notes");
+            return;
+        }
+
+        chain.doFilter(request, response); // execute the servlet
+
+        // code that is executed after the servlet
     }
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        
+
     }
-    
+
     @Override
     public void destroy() {
-       
+
     }
 }

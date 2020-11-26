@@ -13,7 +13,7 @@
         <p>
             <a href="login">Log out</a>
         </p>
-        
+
         <p>
             <c:if test="${message eq 'create'}">Note created</c:if>
             <c:if test="${message eq 'update'}">Note updated</c:if>
@@ -23,7 +23,7 @@
             <ul>
             <c:forEach items="${notes}" var="note">
                 <li><a href="notes?action=view&amp;noteId=${note.noteId}">${note.title} (${note.owner.firstName})</a><br></li>
-            </c:forEach>
+                </c:forEach>
         </ul>
         <c:if test="${selectedNote eq null}">
             <h2>Create a New Note</h2>

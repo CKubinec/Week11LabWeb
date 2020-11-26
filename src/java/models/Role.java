@@ -105,5 +105,5 @@ public class Role implements Serializable {
     public String toString() {
         return "models.Role[ roleId=" + roleId + " ]";
     }
-    
+
 }
