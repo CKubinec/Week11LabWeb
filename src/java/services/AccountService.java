@@ -41,13 +41,10 @@ public class AccountService {
         }
     }
 
-    public boolean changePassword(String uuid, String password) {
-        System.out.println("IN CHANGE PASSWORD");        
+    public boolean changePassword(String uuid, String password) {       
         try {
-            System.out.println("IN TRY BLOCK");
             UserDB userDB = new UserDB();
             User user = userDB.getByUUID(uuid);
-            System.out.println(user.toString());
             user.setPassword(password);
             user.setResetPasswordUuid(null);
             userDB.update(user);

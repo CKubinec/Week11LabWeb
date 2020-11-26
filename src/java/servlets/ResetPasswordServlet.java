@@ -26,7 +26,6 @@ public class ResetPasswordServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String uuid = request.getParameter("uuid");
-        System.out.println("This is the uuid ="+uuid);
         if (request.getParameter("action") != null) {
             request.setAttribute("clicked", "Email Sent! Please check your email for instructions for resetting password");
             getServletContext().getRequestDispatcher("/WEB-INF/reset.jsp").forward(request, response);
@@ -46,7 +45,6 @@ public class ResetPasswordServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String uuid = (String) session.getAttribute("uuid");
-        System.out.println("This is the uuid ="+uuid);
         if (uuid != null) {
             try {
                 String password = (String) request.getParameter("password");
